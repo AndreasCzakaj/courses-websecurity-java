@@ -1,0 +1,11 @@
+<!-- src/main/resources/templates/error/error.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Error</title>
+</head>
+<body>
+<h1>I'm Broken!</h1>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/2-V8kYT1pvE?si=g5rZpzjRC4P1zKzE&amp;start=182" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+</body>
+</html>
