@@ -1,4 +1,4 @@
-package com.websecurity.app01;
+package com.websecurity.app02;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,12 +16,12 @@ public class ThymeleafDemoController {
     @GetMapping("/demo/search-raw")
     public String searchRaw(@RequestParam(required = false) String query, Model model) {
         model.addAttribute("query", query);
-        return "search-demo-raw";
+        return "search-demo";
     }
 
     @GetMapping("/demo/search-safe")
     public String searchSafe(@RequestParam(required = false) String query, Model model) {
         model.addAttribute("query", query);
-        return "search-demo-safe";
+        return "search-demo";
     }
 }

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Safe Comment Demo - Client-Side + Server-Side</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        .success { background: #e8f5e8; padding: 20px; border-left: 4px solid #4caf50; margin: 20px 0; }
+        .demo-section { background: #f5f5f5; padding: 20px; margin: 20px 0; border-radius: 4px; }
+        .safe { background: #e8f5e8; border-left: 4px solid #4caf50; }
+        .comment-form { background: #fafafa; padding: 15px; margin: 15px 0; border-radius: 4px; }
+        .comment { background: white; padding: 15px; margin: 10px 0; border: 1px solid #ddd; border-radius: 4px; }
+        .comment-meta { font-size: 0.9em; color: #666; margin-bottom: 10px; }
+        input[type="text"], textarea { width: 100%; padding: 8px; margin: 5px 0; box-sizing: border-box; }
+        button { padding: 8px 16px; margin: 5px; }
+        .nav-buttons { margin: 20px 0; }
+        #clientComments { margin-top: 20px; }
+        .section-divider { border-top: 2px solid #ddd; margin: 30px 0; padding-top: 20px; }
+    </style>
+</head>
+<body>
+    <h1>✅ Safe: Stored XSS Protection (Auto-Escaping + Client-Side)</h1>
+
+    <div class="success">
+        <strong>🛡️ Protected!</strong> Comments are safely escaped - both server-side and client-side rendering!
+    </div>
+
+    <div class="demo-section safe">
+        <h2>Comments Section (Safe Rendering)</h2>
+
+        <div class="comment-form">
+            <h3>Add Comment</h3>
+            <p><strong>Try malicious payload:</strong> <code>&lt;img src=x onerror=alert('XSS Blocked!')&gt;</code></p>
+            <form id="commentForm" onsubmit="submitComment(event)">
+                <input type="text" id="author" placeholder="Your name" required />
+                <textarea id="content" rows="3" placeholder="Your comment..." required></textarea>
+                <button type="submit">Add Comment</button>
+                <button type="button" onclick="loadClientComments()">Load via REST API</button>
+            </form>
+        </div>
+
+        <h3>Comments (Server-Side Rendering - Safe)</h3>
+        <div class="comments">
+            <div th:each="comment : ${comments}" class="comment">
+                <div class="comment-meta">
+                    <strong th:text="${comment.author}">Author</strong> -
+                    <span th:text="${#temporals.format(comment.createdAt, 'yyyy-MM-dd HH:mm')}">Date</span>
+                </div>
+                <!-- SAFE: Using th:text escapes HTML -->
+                <div th:text="${comment.content}">Comment content safely escaped</div>
+            </div>
+            <div th:if="${#lists.isEmpty(comments)}">
+                <p>No comments yet. Be the first to comment!</p>
+            </div>
+        </div>
+
+        <div id="clientComments" class="section-divider">
+            <h3>Comments (Client-Side REST API - Safe)</h3>
+            <div id="clientCommentsContainer">
+                <p>Click "Load via REST API" to load comments from the REST endpoint</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="demo-section">
+        <h2>📝 Security Features</h2>
+        <ul>
+            <li><strong>Server-Side:</strong> <code>th:text</code> auto-escapes HTML entities</li>
+            <li><strong>Client-Side:</strong> <code>textContent</code> prevents HTML injection</li>
+            <li><strong>Manual Escaping:</strong> Custom <code>escapeHtml()</code> function for extra safety</li>
+            <li><strong>Safe Pattern:</strong> Always use text content, never innerHTML with user data</li>
+        </ul>
+    </div>
+
+    <div class="nav-buttons">
+        <a href="/demo"><button>← Back to Demo</button></a>
+        <a href="/comment-raw"><button>View Vulnerable Version →</button></a>
+    </div>
+
+    <script>
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        async function submitComment(event) {
+            event.preventDefault();
+
+            const author = document.getElementById('author').value;
+            const content = document.getElementById('content').value;
+
+            try {
+                const response = await fetch('/api/comments', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        author: author,
+                        content: content
+                    })
+                });
+
+                if (response.ok) {
+                    // Reload page to show new comment
+                    window.location.reload();
+                } else {
+                    alert('Failed to add comment');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error adding comment');
+            }
+        }
+
+        async function loadClientComments() {
+            try {
+                const response = await fetch('/api/comments');
+                const comments = await response.json();
+
+                const container = document.getElementById('clientCommentsContainer');
+                container.innerHTML = '';
+
+                if (comments.length === 0) {
+                    container.innerHTML = '<p>No comments yet.</p>';
+                    return;
+                }
+
+                comments.forEach(comment => {
+                    const commentDiv = document.createElement('div');
+                    commentDiv.className = 'comment';
+
+                    const meta = document.createElement('div');
+                    meta.className = 'comment-meta';
+                    // SAFE: Using escapeHtml function prevents HTML injection
+                    meta.innerHTML = `<strong>${escapeHtml(comment.author)}</strong> - ${new Date(comment.createdAt).toLocaleString()}`;
+
+                    const content = document.createElement('div');
+                    // SAFE: Using textContent instead of innerHTML prevents XSS
+                    content.textContent = comment.content;
+
+                    commentDiv.appendChild(meta);
+                    commentDiv.appendChild(content);
+                    container.appendChild(commentDiv);
+                });
+
+            } catch (error) {
+                console.error('Error loading comments:', error);
+                alert('Failed to load comments');
+            }
+        }
+    </script>
+</body>
+</html>

@@ -15,11 +15,14 @@ import java.util.Optional;
 public class InjectionController {
 
     // Template: <p>Results for: ${query}</p>
-    // Attack: http://localhost:8080/injection/xss/reflective/search?query=<script>alert('XSS')</script>
-    // Java - Bad: Direct output without encoding
+    // Attack: http://localhost:8082/injection/xss/reflective/search?query=<script>alert('Pwn3d!')</script>
     @GetMapping("/injection/xss/reflective/search")
     public String search(@RequestParam String query) {
-        return String.format("<!DOCTYPE html><html><head><title>Pwn3d</title></head><body><p>Results for: %s</p></body></html>", query);
+        return template(String.format("<p>Results for: %s</p>", query));
+    }
+
+    String template(String content) {
+        return String.format("<!DOCTYPE html><html><head><title>Demo</title></head><body>%s</body></html>", content);
     }
 
 }

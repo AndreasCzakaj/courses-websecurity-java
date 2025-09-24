@@ -1,5 +1,6 @@
 package com.websecurity.app02;
 
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -15,7 +16,7 @@ public class SecurityConfig {
         http
             .authorizeHttpRequests(authz -> authz
                 .requestMatchers("/", "/h2-console/**").permitAll()
-                .requestMatchers("/information-leakage/**").authenticated()
+                .requestMatchers("/information-leakage/**", "/demo/**").authenticated()
                 .anyRequest().authenticated()
             )
             .httpBasic()
@@ -24,5 +25,13 @@ public class SecurityConfig {
             .headers().frameOptions().disable(); // For H2 console
 
         return http.build();
+    }
+
+    @Bean
+    public FilterRegistrationBean<CSPFilter> cspFilter() {
+        FilterRegistrationBean<CSPFilter> registration = new FilterRegistrationBean<>();
+        registration.setFilter(new CSPFilter());
+        registration.addUrlPatterns("/*");
+        return registration;
     }
 }

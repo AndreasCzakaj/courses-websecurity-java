@@ -13,8 +13,8 @@ public class SecurityHeadersFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response,
                          FilterChain chain) throws IOException, ServletException {
 
-        /*HttpServletResponse httpResponse = (HttpServletResponse) response;
-        httpResponse.setHeader("X-Content-Type-Options", "nosniff");*/
+        HttpServletResponse httpResponse = (HttpServletResponse) response;
+        httpResponse.setHeader("X-Content-Type-Options", "nosniff");
 
         chain.doFilter(request, response);
     }
