@@ -36,11 +36,6 @@ public class InjectionWebController {
     }
 
     @GetMapping("/comment-raw")
-    /*@CSPPolicy(
-        scriptSrc = "'self'",           // Very strict - no nonces, no inline
-        styleSrc = "'self' 'unsafe-inline'",  // Allow inline styles for demo
-        strict = true
-    )*/
     public String commentRaw(Model model) {
         List<Comment> comments = commentRepository.findAllByOrderByCreatedAtDesc();
         model.addAttribute("comments", comments);

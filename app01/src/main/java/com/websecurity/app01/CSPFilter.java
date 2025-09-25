@@ -31,10 +31,7 @@ public class CSPFilter implements Filter {
             "script-src 'self' 'nonce-" + nonce + "' 'sha256-MiRxR9TOqdLexUkasCnBfV8pd6zeJlTjYRD5nCz5IYw=' 'sha256-Da56xdG44vHlhXd5wfm/7A9idZV0uDxN5he81ASOKs0=' 'unsafe-hashes'; " +
             "style-src 'self' 'nonce-" + nonce + "'; " +
             "img-src 'self' data: https:; " +
-            "media-src 'self' data: https:; " +
-            "font-src 'self' data:; " +
-            "connect-src 'self'; " +
-            "frame-ancestors 'none'"
+            "media-src 'self' data: https:"
         );*/
 
         chain.doFilter(request, response);
