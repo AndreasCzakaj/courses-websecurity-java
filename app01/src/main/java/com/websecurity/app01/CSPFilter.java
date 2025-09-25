@@ -2,9 +2,11 @@ package com.websecurity.app01;
 
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
+@Component
 public class CSPFilter implements Filter {
 
     @Override
@@ -13,13 +15,14 @@ public class CSPFilter implements Filter {
 
         HttpServletResponse httpResponse = (HttpServletResponse) response;
         System.out.println("CSPFilter");
-        /*
-        // Basic restrictive CSP
+
+        /*// Basic restrictive CSP
         httpResponse.setHeader("Content-Security-Policy",
                 "default-src 'none'; " +
                     "script-src 'self' " +
                     "style-src 'self'; " +
                     "img-src 'self' data: https:; " +
+                    "media-src 'self' data: https:; " +
                     "font-src 'self'; " +
                     "connect-src 'self'; " +
                     "frame-ancestors 'none'"

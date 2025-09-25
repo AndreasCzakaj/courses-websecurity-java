@@ -14,6 +14,8 @@ public class InjectionWebController {
     @Autowired
     private CommentRepository commentRepository;
 
+    private final NonceGenerator nonceGenerator = new NonceGenerator();
+
     @GetMapping("/demo")
     public String demo() {
         return "search-demo";
@@ -42,6 +44,7 @@ public class InjectionWebController {
     public String commentSafe(Model model) {
         List<Comment> comments = commentRepository.findAllByOrderByCreatedAtDesc();
         model.addAttribute("comments", comments);
+        model.addAttribute("cspNonce", nonceGenerator.generateNonce());
         return "comment-demo-safe";
     }
 }

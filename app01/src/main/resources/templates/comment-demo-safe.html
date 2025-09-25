@@ -76,7 +76,7 @@
         <a href="/comment-raw"><button>View Vulnerable Version →</button></a>
     </div>
 
-    <script>
+    <script th:attr="nonce=${cspNonce}">
         function escapeHtml(text) {
             const div = document.createElement('div');
             div.textContent = text;
