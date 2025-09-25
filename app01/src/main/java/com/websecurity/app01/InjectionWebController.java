@@ -1,5 +1,6 @@
 package com.websecurity.app01;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,7 +15,8 @@ public class InjectionWebController {
     @Autowired
     private CommentRepository commentRepository;
 
-    private final NonceGenerator nonceGenerator = new NonceGenerator();
+    @Autowired
+    private NonceGenerator nonceGenerator;
 
     @GetMapping("/demo")
     public String demo() {
@@ -34,6 +36,11 @@ public class InjectionWebController {
     }
 
     @GetMapping("/comment-raw")
+    /*@CSPPolicy(
+        scriptSrc = "'self'",           // Very strict - no nonces, no inline
+        styleSrc = "'self' 'unsafe-inline'",  // Allow inline styles for demo
+        strict = true
+    )*/
     public String commentRaw(Model model) {
         List<Comment> comments = commentRepository.findAllByOrderByCreatedAtDesc();
         model.addAttribute("comments", comments);
@@ -41,10 +48,18 @@ public class InjectionWebController {
     }
 
     @GetMapping("/comment-safe")
-    public String commentSafe(Model model) {
+   /* @CSPPolicy(
+        scriptSrc = "'self' 'nonce-{nonce}'",  // Allow nonce-based scripts
+        styleSrc = "'self' 'nonce-{nonce}'"    // Allow nonce-based styles
+    )*/
+    public String commentSafe(Model model, HttpServletRequest request) {
         List<Comment> comments = commentRepository.findAllByOrderByCreatedAtDesc();
         model.addAttribute("comments", comments);
-        model.addAttribute("cspNonce", nonceGenerator.generateNonce());
+
+        // Get nonce from CSP filter or generate fallback
+        String nonce = (String) request.getAttribute("cspNonce");
+        model.addAttribute("cspNonce", nonce);
+
         return "comment-demo-safe";
     }
 }

@@ -1,8 +1,11 @@
 package com.websecurity.app01;
 
+import org.springframework.stereotype.Component;
+
 import java.security.SecureRandom;
 import java.util.Base64;
 
+@Component
 public class NonceGenerator {
 
     private static final SecureRandom SECURE_RANDOM = new SecureRandom();
