@@ -21,8 +21,7 @@ public class SqlInjection {
 
     @GetMapping("/users")
     public List<User> findUsers(@RequestParam String username) {
-        //String sql = "SELECT * FROM users WHERE username = '" + username + "'";
-        String sql = "SELECT * FROM users WHERE username = ?";
+        String sql = "SELECT * FROM users WHERE username = '" + username + "'";
         // URL 0a: http://localhost:8080/injection/sql/user?username=admin
         // URL 0b: http://localhost:8080/injection/sql/user?username=john_doe
         // Attack 1: username = "admin' OR '1'='1' --"

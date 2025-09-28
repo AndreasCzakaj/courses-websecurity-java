@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -21,6 +22,11 @@ public class InformationLeakageController {
 
     @Autowired
     private UserRepository userRepository;
+
+    @GetMapping("/information-leakage/users")
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
+    }
 
     // http://localhost:8080/information-leakage/users/666
     // http://localhost:8080/murcs

