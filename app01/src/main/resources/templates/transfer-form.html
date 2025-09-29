@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>XSS Demo - App01 (Vulnerable)</title>
+    <title>Super Duper Payment App</title>
     <style>
         body { font-family: Arial, sans-serif; margin: 40px; }
         .warning { background: #ffebee; padding: 20px; border-left: 4px solid #f44336; margin: 20px 0; }
@@ -32,3 +32,45 @@
     <p><a href="/">← Back to Home</a></p>
 </body>
 </html>
+
+<!--script>
+  // Client-side frame-busting script
+  (function() {
+    'use strict';
+
+    function preventClickjacking() {
+      // Check if page is framed
+      if (window.top !== window.self) {
+        // Page is in a frame
+
+        // Method 1: Break out of frame
+        //window.top.location = window.self.location;
+
+        // Method 2: Hide content
+        document.body.style.display = 'none';
+
+        // Method 3: Show warning
+        document.body.innerHTML =
+          '<h1 style="color: red;">Security Warning: This page cannot be displayed in a frame.</h1>';
+
+        console.warn('Clickjacking attempt detected!');
+
+        // Optionally, you can also send a notification to the server
+        fetch('/clickjacking/report-clickjacking-attempt', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({
+            url: window.location.href,
+            referrer: document.referrer,
+            timestamp: new Date().toISOString()
+          })
+        });
+        return;
+      }
+    }
+
+    // Run immediately and on DOM ready
+    preventClickjacking();
+    document.addEventListener('DOMContentLoaded', preventClickjacking);
+  })();
+</script-->

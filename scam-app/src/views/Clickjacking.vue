@@ -45,7 +45,7 @@ onMounted(() => {
   left: 0;
   width: 500px;
   height: 500px;
-  opacity: 0;  /* 0: Completely transparent */
+  opacity: 0.3;  /* 0: Completely transparent */
   z-index: 2;  /* On top */
 }
 
