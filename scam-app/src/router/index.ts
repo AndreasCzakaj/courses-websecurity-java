@@ -3,6 +3,7 @@ import Home from '@/views/Home.vue'
 import CsrfViaImage from '@/views/CsrfViaImage.vue'
 import CsrfViaForm1 from '@/views/CsrfViaForm1.vue'
 import CsrfViaForm2 from '@/views/CsrfViaForm2.vue'
+import Clickjacking from '@/views/Clickjacking.vue'
 
 const routes = [
   {
@@ -24,6 +25,11 @@ const routes = [
     path: '/csrf-via-form2',
     name: 'CSRF via Form 2',
     component: CsrfViaForm2
+  },
+  {
+    path: '/clickjacking',
+    name: 'Clickjacking',
+    component: Clickjacking
   },
 ]
 

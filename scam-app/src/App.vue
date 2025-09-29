@@ -16,7 +16,7 @@
 
     <v-navigation-drawer
       permanent
-      width="200"
+      width="350"
     >
       <v-list>
         <v-list-item
@@ -27,24 +27,31 @@
         ></v-list-item>
 
         <v-list-item
-          prepend-icon="mdi-comment-multiple"
+          prepend-icon="mdi-image"
           title="CSRF via Image"
           value="csrf-via-image"
           @click="$router.push('/csrf-via-image')"
         ></v-list-item>
 
         <v-list-item
-          prepend-icon="mdi-comment-multiple"
+          prepend-icon="mdi-form-textbox"
           title="CSRF via Form 1"
           value="csrf-via-form1"
           @click="$router.push('/csrf-via-form1')"
         ></v-list-item>
 
         <v-list-item
-          prepend-icon="mdi-comment-multiple"
+          prepend-icon="mdi-form-textarea"
           title="CSRF via Form 2"
           value="csrf-via-form2"
           @click="$router.push('/csrf-via-form2')"
+        ></v-list-item>
+
+        <v-list-item
+          prepend-icon="mdi-cursor-default-click"
+          title="Clickjacking"
+          value="clickjacking"
+          @click="$router.push('/clickjacking')"
         ></v-list-item>
       </v-list>
     </v-navigation-drawer>
