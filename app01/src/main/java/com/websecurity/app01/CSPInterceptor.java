@@ -19,7 +19,7 @@ public class CSPInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        if (handler instanceof HandlerMethod) {
+        /*if (handler instanceof HandlerMethod) {
             HandlerMethod handlerMethod = (HandlerMethod) handler;
             CSPPolicy cspAnnotation = handlerMethod.getMethodAnnotation(CSPPolicy.class);
 
@@ -38,7 +38,7 @@ public class CSPInterceptor implements HandlerInterceptor {
 
                 System.out.println("CSPInterceptor overriding policy for " + handlerMethod.getMethod().getName() + ": " + cspHeader);
             }
-        }
+        }*/
         return true;
     }
 
