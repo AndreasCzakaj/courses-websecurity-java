@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - WebSecurity Demo</title>
+    <link rel="stylesheet" href="/login.css">
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-header">
+            <h1>🔐 Login</h1>
+            <p>WebSecurity Demo Application</p>
+        </div>
+
+        <div th:if="${error}" class="alert alert-error" th:text="${error}">
+            Error message
+        </div>
+
+        <div th:if="${message}" class="alert alert-success" th:text="${message}">
+            Success message
+        </div>
+
+        <form th:action="@{/login}" method="post">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text"
+                       id="username"
+                       name="username"
+                       placeholder="Enter your username"
+                       required
+                       autofocus>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password"
+                       id="password"
+                       name="password"
+                       placeholder="Enter your password"
+                       required>
+            </div>
+
+            <button type="submit" class="btn-login">Login</button>
+        </form>
+
+        <div class="demo-credentials">
+            <h3>📋 Demo Credentials</h3>
+            <ul>
+                <li>Admin: <code>admin</code> / <code>admin123</code></li>
+                <li>User: <code>john_doe</code> / <code>password123</code></li>
+                <li>Manager: <code>bob_wilson</code> / <code>mypassword</code></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>&copy; 2024 WebSecurity Demo | For Educational Purposes Only</p>
+    </div>
+</body>
+</html>

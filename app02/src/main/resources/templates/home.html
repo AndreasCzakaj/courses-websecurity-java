@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title>Home</title>
+    <link rel="stylesheet" href="/global.css">
+</head>
+<body>
+    <div class="user-info">
+        <div sec:authorize="isAuthenticated()">
+            <p>👤 Logged in as: <strong sec:authentication="principal.attributes['preferred_username']"></strong></p>
+            <p>📧 Email: <span sec:authentication="principal.attributes['email']"></span></p>
+            <p>👤 Name: <span sec:authentication="principal.attributes['name']"></span></p>
+            <p>🎭 Role(s): <span sec:authentication="principal.authorities"></span></p>
+            <a href="/logout">Logout</a>
+        </div>
+        <div sec:authorize="!isAuthenticated()">
+            🔒 Not authenticated
+        </div>
+    </div>
+
+    <div>
+        <h2>Bonjour</h2>
+    </div>
+
+    <p><a href="/home">← Back to Home</a></p>
+</body>
+</html>
