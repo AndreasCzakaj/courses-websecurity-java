@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Map;
 
@@ -19,6 +20,7 @@ public class ClickjackingWebController {
             @RequestParam (required = false) String to,
             @RequestParam(required = false) String amount,
             Model model) {
+        // todo: input validation & sanitation
         //response.setHeader("X-Frame-Options", "DENY");
         model.addAttribute("to", to == null ? "" : to);
         model.addAttribute("amount", amount == null ? "" : amount);
@@ -30,17 +32,41 @@ public class ClickjackingWebController {
             HttpServletResponse response,
             @RequestParam String to,
             @RequestParam String amount,
-            Model model) {
+            RedirectAttributes redirectAttributes) {
+        // todo: input validation & sanitation
         //response.setHeader("X-Frame-Options", "DENY");
         String from = "me:1235487";
         Map<String, Object> out = Map.of("result", "success", "from", from, "to", to, "amount", amount);
         System.out.println("Transferring money: " + out.toString());
-        model.addAttribute("from", from);
-        model.addAttribute("to", to );
-        model.addAttribute("amount", amount);
-        model.addAttribute("result", "success");
-        // this should be a redirect...
+        redirectAttributes.addFlashAttribute("from", from);
+        redirectAttributes.addFlashAttribute("to", to);
+        redirectAttributes.addFlashAttribute("amount", amount);
+        redirectAttributes.addFlashAttribute("result", "success");
+        return "redirect:/clickjacking/showResult";
+    }
+
+    @GetMapping("/showResult")
+    public String showResult(HttpServletResponse response) {
+        //response.setHeader("X-Frame-Options", "DENY");
         return "transfer-result";
+    }
+
+    @PostMapping("/transferMoneyF5")
+    public String transferMoneyF5(
+            HttpServletResponse response,
+            @RequestParam String to,
+            @RequestParam String amount,
+            RedirectAttributes redirectAttributes) {
+        // todo: input validation & sanitation
+        //response.setHeader("X-Frame-Options", "DENY");
+        String from = "me:1235487";
+        Map<String, Object> out = Map.of("result", "success", "from", from, "to", to, "amount", amount);
+        System.out.println("Transferring money: " + out.toString());
+        redirectAttributes.addFlashAttribute("from", from);
+        redirectAttributes.addFlashAttribute("to", to);
+        redirectAttributes.addFlashAttribute("amount", amount);
+        redirectAttributes.addFlashAttribute("result", "success");
+        return "redirect:/clickjacking/showResult";
     }
 
     @PostMapping("/report-clickjacking-attempt")
