@@ -13,8 +13,8 @@ import java.util.List;
 
 @Entity
 @Table(name = "users")
-@Getter
-@Setter
+/*@Getter
+@Setter*/
 public class User {
 
     @Id
@@ -127,7 +127,7 @@ public class User {
         this.safeUserId = safeUserId;
     }
 
-
+/*
     // Security tracking fields
     @Column(name = "failed_login_attempts")
     private int failedLoginAttempts = 0;
@@ -184,5 +184,5 @@ public class User {
     public boolean isPasswordExpired() {
         if (passwordChangedAt == null) return true;
         return passwordChangedAt.plus(Duration.ofDays(90)).isBefore(Instant.now());
-    }
+    }*/
 }

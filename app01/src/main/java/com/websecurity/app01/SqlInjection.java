@@ -21,17 +21,15 @@ public class SqlInjection {
 
     @GetMapping("/users")
     public List<User> findUsers(@RequestParam String username) {
+        // VULNERABLE: Intentionally vulnerable SQL injection demo
         String sql = "SELECT * FROM users WHERE username = '" + username + "'";
-        // URL 0a: http://localhost:8080/injection/sql/user?username=admin
-        // URL 0b: http://localhost:8080/injection/sql/user?username=john_doe
+        // URL 0a: http://localhost:8080/injection/sql/users?username=admin
+        // URL 0b: http://localhost:8080/injection/sql/users?username=john_doe
         // Attack 1: username = "admin' OR '1'='1' --"
-        // Full attack URL 1:
+        // Full attack URL 1: http://localhost:8080/injection/sql/users?username=admin' OR '1'='1' --
         // Attack 2: admin'; DROP TABLE users; --
-        // Full attack URL 2: localhost:8080/injection/sql/user?username=admin'; DROP TABLE users; --
-        // URL 3a: http://localhost:8080/injection/sql/user?username=admin
-        // URL 3b: http://localhost:8080/injection/sql/user?username=john_doe
-        // URL 3c:
-        return jdbcTemplate.query(sql, new UserRowMapper(), username);
+        // Full attack URL 2: http://localhost:8080/injection/sql/users?username=admin'; DROP TABLE users; --
+        return jdbcTemplate.query(sql, new UserRowMapper());
     }
 
     private static class UserRowMapper implements RowMapper<User> {

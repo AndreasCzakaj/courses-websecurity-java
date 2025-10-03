@@ -22,12 +22,12 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query(value = "SELECT * FROM users WHERE SAFE_USER_ID = :safeUserId", nativeQuery = true)
     Optional<User> findBySafeUserId(String safeUserId);
 
-    @Query("SELECT u FROM User u WHERE u.resetTokenHash = :tokenHash")
+    /*@Query("SELECT u FROM User u WHERE u.resetTokenHash = :tokenHash")
     User findByResetTokenHash(@Param("tokenHash") String tokenHash);
 
     @Query("SELECT u FROM User u WHERE u.lockedUntil < :now AND u.accountNonLocked = false")
     List<User> findByLockedUntilBefore(@Param("now") Instant now);
 
     @Query("SELECT u FROM User u WHERE u.passwordChangedAt < :cutoff")
-    List<User> findUsersWithExpiredPasswords(@Param("cutoff") Instant cutoff);
+    List<User> findUsersWithExpiredPasswords(@Param("cutoff") Instant cutoff);*/
 }
