@@ -52,8 +52,8 @@ public class InjectionWebController {
         model.addAttribute("comments", comments);
 
         // Get nonce from CSP filter or generate fallback
-        String nonce = (String) request.getAttribute("cspNonce");
-        model.addAttribute("cspNonce", nonce);
+        /*String nonce = (String) request.getAttribute("cspNonce");
+        model.addAttribute("cspNonce", nonce);*/
 
         return "comment-demo-safe";
     }
