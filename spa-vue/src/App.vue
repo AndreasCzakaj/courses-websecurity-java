@@ -32,6 +32,13 @@
           value="comments"
           @click="$router.push('/comments')"
         ></v-list-item>
+
+        <v-list-item
+          prepend-icon="mdi-login"
+          title="Login"
+          value="login"
+          @click="$router.push('/login')"
+        ></v-list-item>
       </v-list>
     </v-navigation-drawer>
 

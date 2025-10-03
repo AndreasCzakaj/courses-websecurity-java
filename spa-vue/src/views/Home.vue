@@ -1,5 +1,14 @@
 <template>
   <div>
+    <v-snackbar
+      v-model="showToast"
+      :color="toastColor"
+      :timeout="toastTimeout"
+      location="top"
+    >
+      {{ toastMessage }}
+    </v-snackbar>
+
     <v-row>
       <v-col>
         <h1 class="text-h3 mb-6">Web Security SPA Demo</h1>
@@ -49,5 +58,28 @@
 </template>
 
 <script setup lang="ts">
-// Home component logic
+import { ref, onMounted } from 'vue'
+import { useRoute } from 'vue-router'
+
+const route = useRoute()
+
+const showToast = ref(false)
+const toastMessage = ref('')
+const toastColor = ref('success')
+const toastTimeout = ref(3000)
+
+onMounted(() => {
+  // Check for login success message in route query or localStorage
+  const loginMessage = route.query.message as string
+  const storedMessage = localStorage.getItem('loginSuccessMessage')
+
+  if (loginMessage) {
+    toastMessage.value = loginMessage
+    showToast.value = true
+  } else if (storedMessage) {
+    toastMessage.value = storedMessage
+    showToast.value = true
+    localStorage.removeItem('loginSuccessMessage')
+  }
+})
 </script>

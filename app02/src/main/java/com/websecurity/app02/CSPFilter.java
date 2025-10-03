@@ -16,11 +16,13 @@ public class CSPFilter implements Filter {
         // Basic restrictive CSP
         httpResponse.setHeader("Content-Security-Policy",
                 "default-src 'none'; " +
-                    "script-src 'self' " +
+                    "script-src 'self'; " +
                     "style-src 'self'; " +
+                    "style-src-elem 'self'; " +
                     "img-src 'self' data: https:; " +
                     "font-src 'self'; " +
                     "connect-src 'self'; " +
+                    "media-src 'self' data:; " +
                     "frame-ancestors 'none'"
         );
 

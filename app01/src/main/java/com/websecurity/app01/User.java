@@ -1,9 +1,20 @@
 package com.websecurity.app01;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import java.time.Duration;
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
+@Getter
+@Setter
 public class User {
 
     @Id
@@ -114,5 +125,64 @@ public class User {
 
     public void setSafeUserId(String safeUserId) {
         this.safeUserId = safeUserId;
+    }
+
+
+    // Security tracking fields
+    @Column(name = "failed_login_attempts")
+    private int failedLoginAttempts = 0;
+
+    @Column(name = "locked_until")
+    private Instant lockedUntil;
+
+    @Column(name = "last_login_at")
+    private Instant lastLoginAt;
+
+    @Column(name = "last_login_ip")
+    private String lastLoginIp;
+
+    @Column(name = "security_version")
+    private int securityVersion = 1;
+
+    @Column(name = "account_non_locked")
+    private boolean accountNonLocked = true;
+
+    @Column(name = "credentials_non_expired")
+    private boolean credentialsNonExpired = true;
+
+    @Column(name = "password_changed_at")
+    private Instant passwordChangedAt;
+
+    // Password reset fields
+    @Column(name = "reset_token_hash")
+    private String resetTokenHash;
+
+    @Column(name = "reset_token_expiry")
+    private Instant resetTokenExpiry;
+
+    @Column(name = "reset_token_used")
+    private boolean resetTokenUsed;
+
+    // Audit fields
+    @CreationTimestamp
+    private Instant createdAt;
+
+    @UpdateTimestamp
+    private Instant updatedAt;
+
+    // Relationships
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private MfaSecret mfaSecret;
+
+    // Constructor, getters, setters...
+
+    public boolean isAccountNonLocked() {
+        return accountNonLocked &&
+                (lockedUntil == null || lockedUntil.isBefore(Instant.now()));
+    }
+
+    public boolean isPasswordExpired() {
+        if (passwordChangedAt == null) return true;
+        return passwordChangedAt.plus(Duration.ofDays(90)).isBefore(Instant.now());
     }
 }
