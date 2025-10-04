@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Template Injection Result</title>
+</head>
+<body>
+    <h1>Processed Template Result</h1>
+    <div th:utext="${result}"></div>
+    <hr>
+    <p><a href="/codeinjection-vulnerable?name=test">Try with 'test'</a></p>
+    <p><a href="/codeinjection-vulnerable?name=__${T(java.lang.System).getProperty('user.name')}__">Try injection attack</a></p>
+</body>
+</html>

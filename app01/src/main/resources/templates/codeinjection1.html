@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Safe Template Usage</title>
+</head>
+<body>
+    <h1>Safe Template - No Injection</h1>
+    <p>Using th:text (safe, escapes HTML):</p>
+    <div th:text="${name}">Name will be displayed here</div>
+
+    <p>Try: <code>?name=&lt;script&gt;alert('XSS')&lt;/script&gt;</code></p>
+    <p>It will be escaped and displayed as text, not executed.</p>
+</body>
+</html>

