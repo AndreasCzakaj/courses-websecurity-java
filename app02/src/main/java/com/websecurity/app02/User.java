@@ -17,7 +17,7 @@ public class User {
     private String email;
 
     @Column(nullable = false)
-    private String password;
+    private String passwordHash;
 
     @Column
     private String firstName;
@@ -33,19 +33,19 @@ public class User {
 
     public User() {}
 
-    public User(String username, String email, String password, String firstName, String lastName, String role) {
+    public User(String username, String email, String passwordHash, String firstName, String lastName, String role) {
         this.username = username;
         this.email = email;
-        this.password = password;
+        this.passwordHash = passwordHash;
         this.firstName = firstName;
         this.lastName = lastName;
         this.role = role;
     }
 
-    public User(String username, String email, String password, String firstName, String lastName, String role, String safeUserId) {
+    public User(String username, String email, String passwordHash, String firstName, String lastName, String role, String safeUserId) {
         this.username = username;
         this.email = email;
-        this.password = password;
+        this.passwordHash = passwordHash;
         this.firstName = firstName;
         this.lastName = lastName;
         this.role = role;
@@ -76,12 +76,12 @@ public class User {
         this.email = email;
     }
 
-    public String getPassword() {
-        return password;
+    public String getPasswordHash() {
+        return passwordHash;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setPasswordHash(String password) {
+        this.passwordHash = password;
     }
 
     public String getFirstName() {
@@ -114,5 +114,9 @@ public class User {
 
     public void setSafeUserId(String safeUserId) {
         this.safeUserId = safeUserId;
+    }
+
+    public boolean isAccountNonLocked() {
+        return true; // impl me
     }
 }

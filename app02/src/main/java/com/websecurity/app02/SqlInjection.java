@@ -44,7 +44,7 @@ public class SqlInjection {
             user.setId(rs.getLong("id"));
             user.setUsername(rs.getString("username"));
             user.setEmail(rs.getString("email"));
-            user.setPassword("<protected>");
+            user.setPasswordHash("<protected>");
             user.setFirstName(rs.getString("first_name"));
             user.setLastName(rs.getString("last_name"));
             user.setRole(rs.getString("role"));
