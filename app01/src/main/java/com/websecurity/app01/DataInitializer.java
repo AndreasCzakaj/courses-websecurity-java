@@ -18,10 +18,10 @@ public class DataInitializer implements CommandLineRunner {
     public void run(String... args) throws Exception {
         // Initialize some sample users for demo purposes
         if (userRepository.count() == 0) {
-            userRepository.save(new User("admin", "admin@example.com", "admin123", "Admin", "User", "ADMIN", generateSecureUuid()));
-            userRepository.save(new User("john_doe", "john@example.com", "password123", "John", "Doe", "USER", generateSecureUuid()));
-            userRepository.save(new User("jane_smith", "jane@example.com", "securepass", "Jane", "Smith", "USER", generateSecureUuid()));
-            userRepository.save(new User("bob_wilson", "bob@example.com", "mypassword", "Bob", "Wilson", "MANAGER", generateSecureUuid()));
+            userRepository.save(new User("admin", "admin@example.com", "admin123", "Admin", "User", "ADMIN", "e99f54b7b2524180be98e274c68bb38c"));
+            userRepository.save(new User("john_doe", "john@example.com", "password123", "John", "Doe", "USER", "f8f3c498d005480c8deaa011ea405ac8"));
+            userRepository.save(new User("jane_smith", "jane@example.com", "securepass", "Jane", "Smith", "USER", "54c98d2ade2945a1af844bf8f3e2b721"));
+            userRepository.save(new User("bob_wilson", "bob@example.com", "mypassword", "Bob", "Wilson", "MANAGER", "daa55f37d95f443da206315148c26599"));
 
             System.out.println("Sample users initialized in database");
         }

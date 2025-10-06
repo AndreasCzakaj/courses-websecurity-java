@@ -14,7 +14,7 @@ import java.nio.file.Paths;
 @Controller
 public class InclusionWebController {
 
-    static final Path templatesDir = Paths.get("./app01/src/main/resources/templates");
+    static final Path templatesDir = Paths.get("./src/main/resources/templates");
 
     @GetMapping("/inclusion1")
     public ResponseEntity<String> inclusion1(@RequestParam String template) {
