@@ -1,5 +1,6 @@
 package com.websecurity.testing;
 
+import jakarta.validation.ConstraintViolationException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -38,17 +39,19 @@ class ValidationTest {
     @MethodSource("shouldFailParams")
     void shouldFail(String input, String expected) {
         assertThatThrownBy(() -> validation.checkAndSanitize(input))
-                .isInstanceOf(IllegalArgumentException.class)
+                //.isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(ConstraintViolationException.class)
                 .hasMessage(expected);
     }
 
     static Stream<Arguments> shouldFailParams() {
         return Stream.of(
-                arguments(null, "Input must not be null"),
+                /*arguments(null, "Input must not be null"),
                 arguments("", "Input must be at least 1 char"),
-                arguments(" ", "Input must be at least 1 char")/*,
-                arguments(-1, "Index must be >= 0"),
-                arguments(47, "Index must be <= 46")*/
+                arguments(" ", "Input must be at least 1 char")*/
+                arguments(null, "firstName: darf nicht null sein"),
+                arguments("", "firstName: Größe muss zwischen 1 und 2147483647 sein"),
+                arguments(" ", "firstName: Größe muss zwischen 1 und 2147483647 sein")
         );
     }
 }

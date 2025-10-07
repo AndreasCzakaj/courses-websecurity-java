@@ -22,7 +22,7 @@ public class InclusionWebController {
         try {
             // DANGEROUS: User input directly in file path
             Path templatePath = Paths.get(templatesDir.toAbsolutePath().toString(), template);
-            System.out.println("templatePath: " + templatePath.toAbsolutePath().toString());
+            System.out.println("templatePath: " + templatePath.toAbsolutePath());
             String content = Files.readString(templatePath);
             System.out.println("content: " + content);
             return new ResponseEntity<>(content, HttpStatus.OK);
